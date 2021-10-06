@@ -13,8 +13,16 @@ composer require lumite-studios/where-has-model-scope
 ### Usage
 
 ```php
-$user = User::first();
+// Within the Post class
+use LumiteStudios\WhereHasModelScope\WhereHasModelScopeTrait;
 
+class Post extends Model {
+	use WhereHasModelScopeTrait;
+}
+
+// The Post model can then use this trait to fetch
+// all posts that belong to a user.
+$user = User::first();
 $posts = Post::whereHasModel('user', $user)->get();
 
 // OPTIONAL: table, column
