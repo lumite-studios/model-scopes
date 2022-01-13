@@ -1,4 +1,5 @@
 <?php
+
 namespace LumiteStudios\WhereHasModelScope;
 
 trait WhereHasModelScopeTrait
@@ -19,13 +20,12 @@ trait WhereHasModelScopeTrait
 		object $model,
 		string $table = null,
 		string $column = null
-	)
-	{
+	) {
 		$attribute = $attribute ?? $model->getKeyName();
 		$column = $column ?? $model->getKeyName();
 
-		$query->whereHas($relation, function($q) use($column, $model, $table) {
-			$q->where($table.'.'.$column, '=', $model[$column]);
+		$query->whereHas($relation, function ($q) use ($column, $model, $table) {
+			$q->where($table . '.' . $column, '=', $model[$column]);
 		});
 	}
 }
