@@ -28,7 +28,7 @@ trait WhereHasModelScopeTrait
         $foreignKey = $foreignKey ?? $model->getKeyName();
         $localKey = $localKey ?? "{$relation}_{$foreignKey}";
 
-        $query->whereHas($relation, function ($q) use ($foreignKey, $localKey, $model, $table) {
+        return $query->whereHas($relation, function ($q) use ($foreignKey, $localKey, $model, $table) {
             $q->where("{$table}.{$localKey}", '=', $model[$foreignKey]);
         });
     }
