@@ -2,30 +2,34 @@
 
 namespace LumiteStudios\WhereHasModelScope;
 
+use Illuminate\Database\Eloquent\Builder;
+
 trait WhereHasModelScopeTrait
 {
-	/**
-	 * Add a `whereHasModel` scope.
-	 *
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param string $relation
-	 * @param object $model
-	 * @param string $table
-	 * @param string $column
-	 * @return void
-	 */
-	public function scopeWhereHasModel(
-		\Illuminate\Database\Eloquent\Builder $query,
-		string $relation,
-		object $model,
-		string $table = null,
-		string $column = null
-	) {
-		$attribute = $attribute ?? $model->getKeyName();
-		$column = $column ?? $model->getKeyName();
+    /**
+     * Add a `whereHasModel` scope.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $relation
+     * @param object $model
+     * @param string|null $table
+     * @param string|null $localKey
+     * @param string|null $foreignKey
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereHasModel(
+        Builder $query,
+        string $relation,
+        object $model,
+        ?string $table = null,
+        ?string $localKey = null,
+        ?string $foreignKey = null,
+    ): Builder {
+        $foreignKey = $foreignKey ?? $model->getKeyName();
+        $localKey = $localKey ?? "{$relation}_{$foreignKey}";
 
-		$query->whereHas($relation, function ($q) use ($column, $model, $table) {
-			$q->where($table . '.' . $column, '=', $model[$column]);
-		});
-	}
+        $query->whereHas($relation, function ($q) use ($foreignKey, $localKey, $model, $table) {
+            $q->where("{$table}.{$localKey}", '=', $model[$foreignKey]);
+        });
+    }
 }
