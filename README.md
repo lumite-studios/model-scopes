@@ -20,11 +20,13 @@ class Post extends Model {
 	use WhereHasModelScopeTrait;
 }
 
-// The Post model can then use this trait to fetch
+// EX: The Post model can then use this trait to fetch
 // all posts that belong to a user.
 $user = User::first();
+
+// REQUIRED: relation, model
 $posts = Post::whereHasModel('user', $user)->get();
 
-// OPTIONAL: table, column
-$posts = Post::whereHasModel('user', $user, 'users', 'id')->get();
+// OPTIONAL: table, localKey, foreignKey
+$posts = Post::whereHasModel('user', $user, 'users', 'user_id', 'id')->get();
 ```
