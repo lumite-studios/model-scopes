@@ -1,6 +1,6 @@
 {
-    "name": "lumite-studios/where-has-model-scope",
-    "description": "A trait to add a `whereHasModel` scope to a model.",
+    "name": "lumite-studios/model-scopes",
+    "description": "A trait to add a specific model scopes.",
     "type": "library",
     "license": "proprietary",
     "authors": [
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LumiteStudios\\WhereHasModelScope\\": "src/"
+            "LumiteStudios\\ModelScopes\\": "src/"
         }
     },
     "minimum-stability": "dev",

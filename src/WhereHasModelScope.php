@@ -1,10 +1,10 @@
 <?php
 
-namespace LumiteStudios\WhereHasModelScope;
+namespace LumiteStudios\ModelScopes;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait WhereHasModelScopeTrait
+trait WhereHasModelScope
 {
     /**
      * Add a `whereHasModel` scope.
@@ -22,14 +22,13 @@ trait WhereHasModelScopeTrait
         string $relation,
         object $model,
         ?string $table = null,
-        ?string $localKey = null,
-        ?string $foreignKey = null,
+        ?string $foreignKey = null
     ): Builder {
+        $table = $table ?? $model->getTable();
         $foreignKey = $foreignKey ?? $model->getKeyName();
-        $localKey = $localKey ?? "{$relation}_{$foreignKey}";
 
-        return $query->whereHas($relation, function ($q) use ($foreignKey, $localKey, $model, $table) {
-            $q->where("{$table}.{$localKey}", '=', $model[$foreignKey]);
+        return $query->whereHas($relation, function ($q) use ($foreignKey, $model, $table) {
+            return $q->where("{$table}.{$foreignKey}", '=', $model[$foreignKey]);
         });
     }
 }

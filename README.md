@@ -1,32 +1,54 @@
-# lumite-studios/where-has-model-scope
+# lumite-studios/model-scopes
+A trait to add various model scopes.
 
-A trait to add a `whereHasModel` scope to a model.
-
-## Documentation
-
-### Installation
-
+## Installation
 ```bash
-composer require lumite-studios/where-has-model-scope
+composer require lumite-studios/model-scopes
 ```
 
-### Usage
-
+## Usage
+### All Scopes
 ```php
-// Within the Post class
-use LumiteStudios\WhereHasModelScope\WhereHasModelScopeTrait;
+use LumiteStudios\ModelScopes\ModelScopes;
+```
+
+### WhereIsModelScope
+```php
+class User extends Model {
+    use WhereIsModelScope;
+}
+```
+```php
+$user = User::first();
+$user = User::whereIsModel($user)->first();
+```
+
+### WhereHasModelScope
+```php
+use LumiteStudios\ModelScopes\WhereHasModelScope;
 
 class Post extends Model {
-	use WhereHasModelScopeTrait;
+    use WhereHasModelScope;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 
-// EX: The Post model can then use this trait to fetch
-// all posts that belong to a user.
-$user = User::first();
+class User extends Model {
+    use WhereHasModelScope;
 
-// REQUIRED: relation, model
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+}
+```
+```php
+$user = User::first();
 $posts = Post::whereHasModel('user', $user)->get();
 
-// OPTIONAL: table, localKey, foreignKey
-$posts = Post::whereHasModel('user', $user, 'users', 'user_id', 'id')->get();
+$post = Post::first();
+$user = User::whereHasModel('posts', $post)->first();
 ```
