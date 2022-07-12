@@ -14,6 +14,8 @@ use LumiteStudios\ModelScopes\ModelScopes;
 
 ### WhereIsModelScope
 ```php
+use LumiteStudios\ModelScopes\WhereIsModelScope;
+
 class User extends Model {
     use WhereIsModelScope;
 }
